@@ -29,6 +29,7 @@ class DogsController {
             flash.message = "O Dog ${dog.nome} foi Editado com sucesso."
             flash.args = ["notice"]
             session['dog_id'] = dog.id
+            session['current_faro'] = createInitialFaro()
         }
         else{
              dog.errors.allErrors.each { println it }
