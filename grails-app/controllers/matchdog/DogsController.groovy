@@ -82,7 +82,7 @@ class DogsController {
     }
     
     def index() {
-    	[dogs: Dog.find('from Dog where datahoraExcluido is null and dono_id  = :dono_id', [dono_id: session['dono_id']])]
+    	[dogs: Dog.findAll('from Dog where datahoraExcluido is null and dono_id  = :dono_id', [dono_id: session['dono_id']])]
     }
 
     def show() {
