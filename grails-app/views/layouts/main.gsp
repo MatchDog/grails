@@ -91,7 +91,7 @@
             <div class="col-sm-8 busca">
 
               <g:ifCurrentDog>
-                <g:form name="" class="form-horizontal" action="farejar">
+                <g:form name="" class="form-horizontal" url="[action:'farejar', controller:'home']">
                   <div class="form-group">
                     <div class="col-sm-1 col-padding-reduce">
                       <span>Procuro </span>
