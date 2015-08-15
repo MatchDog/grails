@@ -218,19 +218,27 @@
         var id = button.data('id')
         
         var modal = $(this)
-        modal.find('#form_excluir_foto').attr("action", "/fotos/destroy/"+String(id))
+        if(modal.find('#form_excluir_foto').attr("action") != "/fotos/destroy/"+String(id) ){
+
+          modal.find('#form_excluir_foto').attr("action", "/fotos/destroy/"+String(id))
+          
+          modal.find('#form_excluir_foto').unbind('submit');
         
-        modal.find('#form_excluir_foto').submit(function(){
-            $.post(
-                $(this).attr('action'), 
-                $(this).serialize(), 
-                function(json) {
-                    modal.find('.close').click();
-                    button.parents('.fotoBox').remove();
-                     $('.same-height').responsiveEqualHeightGrid();
-                }, 'json');
-            return false;
-        })
+          modal.find('#form_excluir_foto').submit(function( event ){
+              
+              $.post(
+                  $(this).attr('action'), 
+                  $(this).serialize(), 
+                  function(json) {
+                      modal.find('.close').click();
+                      button.parents('.fotoBox').remove();
+                       $('.same-height').responsiveEqualHeightGrid();
+                  }, 'json');
+
+              return false;
+          })
+
+        }
       
     });
 
@@ -282,10 +290,11 @@
             };
             adicionarFotoNoAlbum(foto);
             var _this = this;
-                setTimeout(function(){
-                  _this.removeAllFiles();
-                },1000);
-        
+            
+            setTimeout(function(){
+              _this.removeAllFiles();
+            },2000);
+            
             $('.same-height').responsiveEqualHeightGrid();	
       
         });

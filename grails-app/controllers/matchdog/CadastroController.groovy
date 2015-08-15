@@ -20,7 +20,6 @@ class CadastroController {
             if (fileUpload){
                 def foto = new Foto(url:fileUpload,descricao:"Foto do Perfil")
                 foto.save(flush: true)
-                println 'setting foto'
                 dono.foto = foto
             }
         }
