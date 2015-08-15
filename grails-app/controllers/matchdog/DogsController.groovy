@@ -26,10 +26,9 @@ class DogsController {
     	}
 
     	if(dog.save(flush: true)){
-            flash.message = "O Dog ${dog.nome} foi Editado com sucesso."
-            flash.args = ["notice"]
             session['dog_id'] = dog.id
             session['current_faro'] = createInitialFaro()
+            flash.info = "O Dog ${dog.nome} foi Cadastrado com sucesso."
         }
         else{
              dog.errors.allErrors.each { println it }
@@ -61,8 +60,7 @@ class DogsController {
     	}
 
     	dog.save(flush:true)
-    	flash.message = "${dog.nome} foi Editado com sucesso"
-		flash.args = ["notice"]
+    	flash.info = "${dog.nome} foi Editado com sucesso"
 		redirect(controller: "dogs",action: "index")
     }
 
@@ -76,8 +74,7 @@ class DogsController {
     		dog.datahoraExcluido = Calendar.instance.time
     		dog.save(flush: true)
     		session['dog_id'] == null
-    		flash.message = "${dog.nome} foi Excluído com sucesso"
-			flash.args = ["notice"]
+    		flash.info = "${dog.nome} foi Excluído com sucesso"
     	}
     	redirect (controller: "dogs", action: "index")
     }
@@ -91,12 +88,10 @@ class DogsController {
     	if (dog.dono.id == session['dono_id']){
     		session['dog_id'] = dog.id            
             session['current_faro'] = getLastFaro() ?: createInitialFaro()
-    		flash.message = "${dog.nome} foi Selecionado com sucesso"
-			flash.args = ["notice"]
+    		flash.info = "${dog.nome} foi Selecionado com sucesso"
 			redirect (uri: "/")
     	} else {
-    		flash.message = "${dognome} não pode ser selecionado"
-			flash.args = ["warning"]
+    		flash.warning = "${dog.nome} não pode ser selecionado"
     		redirect (controller: "dogs", action: "index")
     	}
     }
@@ -137,6 +132,5 @@ class DogsController {
         }else{
             null
         }
-        
     }
 }

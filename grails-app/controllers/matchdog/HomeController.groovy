@@ -51,28 +51,30 @@ class HomeController {
         }else{
             faro.errors.allErrors.each { println it }
         }
-    	redirect(uri:"/")
+    	redirect (controller: "home", action: "index")
     }
 
     def curtir() {
     	def curtida = new Curtida()
-    	curtida.dog = Dog.get(session['dono_id'])
+    	curtida.dog = Dog.get(session['dog_id'])
     	curtida.dogAlvo = Dog.get(params.id)
     	curtida.curtiu = params.boolean('curtiu')
     	curtida.save(flush:true)
         
+        def deuMatch = false 
+
     	if (curtida.curtiu) {
     		def curtidaCorrespondente = Curtida.find('from Curtida where dog_id = :dog_alvo and dog_alvo_id  = :dog and curtiu is true', [dog_alvo: curtida.dogAlvo.id, dog: curtida.dog.id])
             
  			if (curtidaCorrespondente) {
  				def m = new Match([dog1: curtida.dog, dog2: curtida.dogAlvo, datahora: Calendar.instance.time])
  				m.save(flush: true)
- 				flash.message = "MATCH!!!"
-				flash.args = ["error"]
+ 				deuMatch = true
  			}   		
     	}
+
         render(contentType: "application/json") {
-           [head: "No Content"]
+           [match: deuMatch]
         }
     }
 

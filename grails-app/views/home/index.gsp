@@ -111,6 +111,10 @@
                     type: "POST",
                     data: {id: alvo_id, curtiu: true},
                     success: function (data) {
+                        if(data.match){
+                            $("#flash-message").append("<div id='flash-sucess' class='alert alert-success'> <a href='/matches'> DEU MATCH !!! </a></div>");
+                            $("#flash-message").children().delay(3000).slideUp(500);
+                        }
                         owl.trigger('owl.next');
                     }
                 });
@@ -121,9 +125,8 @@
                     url: "curtir",
                     type: "POST",
                     data: {id: alvo_id, curtiu: false},
-                    success: function (data) { 
+                    success: function (data) {
                         owl.trigger('owl.next');
-                        console.log(data.curtiu)
                     }
                 });
             });

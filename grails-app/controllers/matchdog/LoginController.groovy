@@ -13,21 +13,24 @@ class LoginController {
     	}
     	if (dono) {
     		session['dono_id'] = dono.id
-    		if (dono.dogs && dono.dogs.size() == 1){
-                redirect(controller: "dogs",action: "show", id: dono.dogs.first().id)
+    		if (!dono.dogs){
+                redirect(controller: "cadastro",action: "first_dog")
     		}
+            else if (dono.dogs.size() == 1){
+                redirect(controller: "dogs",action: "show", id: dono.dogs.first().id)
+            }
             else{
                 redirect(controller: "dogs",action: "index")    
             }
     	} else {
-    		flash.message = "Login ou Senha Inválidos"
-			flash.args = ["error"]
+    		flash.error = "Login ou Senha Inválidos"
 			redirect(controller: "login",action: "index")
     	}
     }
 
     def destroy() {
         session.invalidate()
+        flash.info = "Você saiu"
         redirect(controller: "login",action: "index")
     }
     

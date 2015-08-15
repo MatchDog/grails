@@ -27,11 +27,14 @@ class CadastroController {
     	dono.password = MessageDigest.getInstance("MD5").digest(params.password.getBytes("UTF-8")).encodeHex().toString()
     	if(dono.save(flush: true)){
             session['dono_id'] = dono.id    
+            flash.sucess = "Cadastro Realizado. Agora cadastre seu Dog"
+            redirect(controller: "cadastro", action: "first_dog")
         }
         else{
-            dono.errors.allErrors.each { println it }
+            flash.error = "Algum erro ao realizar o cadastro."
+            redirect(controller: "cadastro", action: "add")
         }
-    	redirect(controller: "cadastro", action: "first_dog")
+    	
     }
 
     def first_dog() {
@@ -52,16 +55,18 @@ class CadastroController {
     	if(params.foto) {
     		def file = request.getFile("foto")
     		String fileUpload = fileUploadService.upload(file)
-    		def foto
-    		if(dono.foto == null) {
-    			foto = new Foto()
-    		} else {
-    			foto = dono.foto
-    		}   		
-    		foto.url = fileUpload
-    		foto.descricao = "Foto do Perfil"
-    		foto.save(flush: true)
-    		dono.foto = foto
+            if (fileUpload){
+        		def foto
+        		if(dono.foto) {
+                    foto = dono.foto
+        		} else {
+        			foto = new Foto()
+        		}   		
+        		foto.url = fileUpload
+        		foto.descricao = "Foto do Perfil"
+        		foto.save(flush: true)
+        		dono.foto = foto
+            }
     	}
 
         //importar demais fotos
@@ -77,8 +82,7 @@ class CadastroController {
 
     	if(dono.save(flush: true)){
             session['dono_id'] = dono.id
-            flash.message = "Seu Perfil foi Editado com sucesso"
-            flash.args = ["notice"]
+            flash.info = "Seu Perfil foi Editado com sucesso"
         }
         else{
             dono.errors.allErrors.each { println it }

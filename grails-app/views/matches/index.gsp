@@ -12,7 +12,12 @@
 		        <hr> 
 		        <div id="matches">
 		        
-		         
+		        <g:if test="${ ! matches }">
+					<span class="title-date">
+	             	Seu cãozinho não tem nenhum match :(
+	             	</span> 
+				</g:if>
+
 		        <g:each var="m" in="${matches}">
 		        
 		         

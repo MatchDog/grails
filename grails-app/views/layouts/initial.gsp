@@ -20,6 +20,28 @@
     <g:layoutHead/>
   </head>
   <body>
+    <div style="position: fixed; top: 140px;left: 850px; width: 400px; padding: 5px;z-index:9999; opacity:0.9;">
+      <div id="flash-message" style="margin: 0 auto;">
+            <g:if test="${flash.sucess}">
+              <div class="alert alert-success">${flash.sucess}</div>
+            </g:if>
+            <g:if test="${flash.error}">
+              <div class="alert alert-danger">${flash.error}</div>
+            </g:if>
+            <g:if test="${flash.info}">
+              <div class="alert alert-info">${flash.info}</div>
+            </g:if>
+            <g:if test="${flash.warning}">
+              <div class="alert alert-warning">${flash.warning}</div>
+            </g:if>
+      </div>
+    </div>
+    <script>
+    $( document ).ready(function() {
+         $("#flash-message").children().delay(3000).slideUp(500);
+    });
+    </script>
+
     <header class="navbar">
       <nav class="navbar-inner">
         <div class="container container-logo-initial">
