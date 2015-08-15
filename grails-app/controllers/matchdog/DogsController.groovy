@@ -89,13 +89,13 @@ class DogsController {
     def show() {
     	def dog = Dog.get(params.id)
     	if (dog.dono.id == session['dono_id']){
-    		session['dog_id'] = dog.id
-            session['current_faro'] = createInitialFaro()
+    		session['dog_id'] = dog.id            
+            session['current_faro'] = getLastFaro() ?: createInitialFaro()
     		flash.message = "${dog.nome} foi Selecionado com sucesso"
 			flash.args = ["notice"]
 			redirect (uri: "/")
     	} else {
-    		flash.message = "${dog.nome} não pode ser selecionado"
+    		flash.message = "${dognome} não pode ser selecionado"
 			flash.args = ["warning"]
     		redirect (controller: "dogs", action: "index")
     	}
@@ -121,5 +121,22 @@ class DogsController {
         faro.interessaPassear  = current_dog.interessaPassear
         faro.interessaCruzar   = current_dog.interessaCruzar
         faro
+    }
+
+    def private getLastFaro() {
+        def lastFaro =  Faro.find("from Faro where dog_id = :dog_id order by datahora desc", [dog_id: session['dog_id']])
+        if (lastFaro){
+            def faro = new Faro()
+            faro.sexoDono          = lastFaro.sexoDono
+            faro.sexoDog           = lastFaro.sexoDog
+            faro.raca              = lastFaro.raca
+            faro.cidade            = lastFaro.cidade
+            faro.interessaPassear  = lastFaro.interessaPassear
+            faro.interessaCruzar   = lastFaro.interessaCruzar
+            faro
+        }else{
+            null
+        }
+        
     }
 }

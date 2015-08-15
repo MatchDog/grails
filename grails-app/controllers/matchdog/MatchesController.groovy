@@ -4,7 +4,7 @@ class MatchesController {
 
     def index() {
         
-        def matches =  Match.find('from Match where dog1_id = :dog_id OR dog2_id = :dog_id AND (DATAHORA_DOG1DESISTIU is null and DATAHORA_DOG2DESISTIU is null)  )', [dog_id: session['dog_id']])
+        def matches =  Match.findAll('from Match where dog1_id = :dog_id OR dog2_id = :dog_id AND (DATAHORA_DOG1DESISTIU is null and DATAHORA_DOG2DESISTIU is null)  )', [dog_id: session['dog_id']])
         
         matches.each {
     		switch(session['dog_id']) {

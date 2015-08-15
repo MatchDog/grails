@@ -6,6 +6,9 @@ class LatidasController {
     	def match = Match.get(params.id)
     	def latidas = Latida.withCriteria {
     		eq 'match', match
+            and {
+                order('enviadaEm')
+            }
     	}
     	def foto_dono1 = match.dog1.dono.foto != null ? match.dog1.dono.foto.url : null
     	def foto_dono2 = match.dog2.dono.foto != null ? match.dog2.dono.foto.url : null
