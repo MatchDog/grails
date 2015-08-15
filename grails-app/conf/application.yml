@@ -12,7 +12,9 @@ spring:
     groovy:
         template:
             check-template-location: false
-
+multipart:
+    max-file-size:2Mb
+    max-request-size:20Mb
 ---
 grails:
     mime:
@@ -52,6 +54,9 @@ grails:
             maxsize: 1000
     controllers:
         defaultScope: singleton
+        upload:
+            maxFileSize: 200000000
+            maxRequestSize: 2000000000
     converters:
         encoding: UTF-8
     views:
