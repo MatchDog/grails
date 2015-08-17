@@ -62,9 +62,6 @@ dependencies {
     compile "org.hibernate:hibernate-ehcache"
     compile "org.grails.plugins:scaffolding"
     
-    runtime 'postgresql:postgresql:8.4-702.jdbc3'
-    provided "org.springframework.boot:spring-boot-starter-tomcat"
-
     runtime "org.grails.plugins:asset-pipeline"
 
     testCompile "org.grails:grails-plugin-testing"
@@ -79,15 +76,3 @@ dependencies {
 task wrapper(type: Wrapper) {
     gradleVersion = gradleWrapperVersion
 }
-
-task stage() {
-    dependsOn clean, war
-}
-tasks.stage.doLast() {
-    delete fileTree(dir: "build/distributions")
-    delete fileTree(dir: "build/assetCompile")
-    delete fileTree(dir: "build/distributions")
-    delete fileTree(dir: "build/libs", exclude: "*.war")
-}
-war.mustRunAfter clean
-

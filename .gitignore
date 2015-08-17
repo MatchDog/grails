@@ -10,6 +10,7 @@
 # general HSQL database files
 *Db.properties
 *Db.script
+.DS_Store
 
 # logs
 /stacktrace.log
